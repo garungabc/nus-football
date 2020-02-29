@@ -82,8 +82,8 @@ class TeamupController extends Controller
             $this->handleExceptionTeam($team, $users);
         }
 
-        $max_row = floor($count_user / $team_nums) + (($count_user % $team_nums) >= 2 ? 1 : 2);
-        
+        $max_row = floor($count_user / $team_nums) + (($count_user % $team_nums) >= 1 ? 1 : 0);
+
         return view('showteam', ['team' => $team, 'sum' => $count_user, 'max_row' => $max_row]);
     }
 

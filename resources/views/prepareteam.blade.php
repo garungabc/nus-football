@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="main-content container mt-3 mb-5">
-	<h5 class="text-center">Prepare</h5>
+	<h5 class="text-center">PREPARE DATE TO SET TEAM</h5>
 	<div class="row">
 		<div class="pr-0">
 			<form action="{{ route('handle.set.team') }}" method="POST">
@@ -24,7 +24,7 @@
 						<td class="text-center">
 							<input type="checkbox" name="u-off[]" value="{{ $user->id }}">
 						</td>
-						@if($flag == 2)
+						@if($flag == 5)
 							</tr>
 							@php
 								$flag = 0;
