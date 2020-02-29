@@ -30,8 +30,8 @@ class TeamupController extends Controller
             $uoff_ids    = $request->get('u-off');
             $users_query = $users_query->whereNotIn('id', $uoff_ids);
         }
+        $users      = $users_query->where('slug', '!=', 'hien-nv')->orderBy('index', 'desc')->get();
         $count_user = $users_query->count();
-        $users      = $users_query->orderBy('index', 'desc')->get();
 
         $team       = [];
         $team_level = [];
@@ -43,9 +43,6 @@ class TeamupController extends Controller
 
         foreach ($users as $key => $user) {
             $user = $user->toArray();
-            if ($user['slug'] == 'hien-nv') {
-                continue;
-            }
 
             switch (true) {
                 case ($user['index'] >= 2):
@@ -77,10 +74,7 @@ class TeamupController extends Controller
         }
 
         // handle case: Hien-NV
-        $has_user_except = $users->pluck('slug')->contains('hien-nv');
-        if ($has_user_except) {
-            $this->handleExceptionTeam($team, $users);
-        }
+        $count_user += $this->handleExceptionTeam($team, $uoff_ids);
 
         $max_row = floor($count_user / $team_nums) + (($count_user % $team_nums) >= 1 ? 1 : 0);
 
@@ -106,28 +100,49 @@ class TeamupController extends Controller
         $point_team = $this->countSumPointEachTeam($team);
 
         $tmp_team_level = $team_level;
-        foreach ($tmp_team_level as $key => $item_team) {
-            if(!empty($item_team)) {
-                foreach ($item_team as $sub_key => $user) {
-                    foreach ($point_team as $key_team => $point) {
-                        array_push($team[$key_team], $user);
-                        unset($team_level[$key][$sub_key]);
-                        break;
+        foreach ($tmp_team_level as $key => $team_item) {
+            if(!empty($team_item)) {
+                foreach ($point_team as $key_team => $point) {
+                    if(!empty($team_level[$key])) {
+                        $sub_item     = array_rand($team_level[$key]);
+                        array_push($team[$key_team], $team_item[$sub_item]);
+                        unset($team_level[$key][$sub_item]);
                     }
                 }
             }
         }
+
+        // check last time
+        // $min_team = [
+        //     'count' => count($team[1]),
+        //     'level' => 1
+        // ];
+
+        // foreach ($team as $key_team => $item) {
+        //     if($min_team['count'] - count($item) >= 2) {
+        //         $sub_item = array_rand($team_level[$key]);
+        //     } else {
+        //         $min_team = [
+        //             'count' => count($item),
+        //             'level' => $key_team
+        //         ];
+        //     }
+        // }
     }
 
-    public function handleExceptionTeam(&$team, $users)
+    public function handleExceptionTeam(&$team, $uoff_ids)
     {
         $point_team = $this->countSumPointEachTeam($team);
         $user_except = User::where('slug', 'hien-nv')->first();
 
-        foreach ($point_team as $key => $point) {
-            array_push($team[$key], $user_except);
-            break;
+        if(!in_array($user_except->id, $uoff_ids)) {
+            foreach ($point_team as $key => $point) {
+                array_push($team[$key], $user_except);
+                break;
+            }
+            return 1;
         }
+        return 0;
     }
 
     public function countSumPointEachTeam($team) {

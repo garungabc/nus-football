@@ -53,16 +53,16 @@
 						</table>
 					</div>
 				@else
-					<div class="col col-3 pr-0">
+					<div class="col col-3 pr-0 {{ ($i != 1) ? 'pl-0' : '' }}">
 						<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th class="text-center" style="background-color: {{ $bg_color }};">Team {{ $i }}</th>
 								</tr>
 							</thead>
-							@for($j = 0; $j < floor($sum / 4); $j++)
+							@for($j = 0; $j < floor($sum / 4) + ($sum % 4); $j++)
 							<tr>
-								<td class="text-center"></td>
+								<td class="text-center"  style="height: 41px;"></td>
 							</tr>
 							@endfor
 						</table>
