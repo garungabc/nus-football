@@ -1,10 +1,10 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="main-content container mt-3 pl-0">
+<div class="main-content container mt-3 pl-0 mb-4">
 	<a class="btn btn-sm btn-danger"  href="{{ route('prepare.team') }}">Back</a>
 	<h5 class="text-center">SET TEAM TOOL</h5>
-	<div class="pl-0"><p>Tổng số: {{ $sum }} người</p></div>
+	<div class=""><p>Tổng số: {{ $sum }} người</p></div>
 	<div class="row">
 		@if(!empty($team))
 			@for($i = 1; $i <= 4; $i++)
@@ -71,7 +71,7 @@
 			@endfor
 		@endif
 	</div>
-	<a class="btn btn-sm btn-success pl-0"  href="javascript:location.reload(true)">Refresh</a>
+	<a class="btn btn-sm btn-success"  href="javascript:location.reload(true)">Refresh</a>
 </div>
 
 @endsection
