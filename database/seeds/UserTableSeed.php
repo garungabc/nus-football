@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserTableSeed extends Seeder
 {
@@ -18,15 +19,15 @@ class UserTableSeed extends Seeder
         $users = [
             [
                 "name"  => "Hiến NV",
-                "index" => 1.9,
+                "index" => 2,
             ],
             [
                 "name"  => "Thạch BK",
-                "index" => 1.9,
+                "index" => 2,
             ],
             [
                 "name"  => "Tuấn NĐ",
-                "index" => 1.9,
+                "index" => 2.2,
             ],
             [
                 "name"  => "Hùng PN",
@@ -48,13 +49,13 @@ class UserTableSeed extends Seeder
                 "name"  => "Phú TV",
                 "index" => 1.8,
             ],
-            // [
-            //     "name"  => "Thịnh CT",
-            //     "index" => 1.8,
-            // ],
+            [
+                "name"  => "Thịnh CT",
+                "index" => 1.7,
+            ],
             [
                 "name"  => "Thiệu NV",
-                "index" => 1.9,
+                "index" => 2,
             ],
             [
                 "name"  => "Toàn DT",
@@ -74,7 +75,7 @@ class UserTableSeed extends Seeder
             ],
             [
                 "name"  => "Hà SV",
-                "index" => 1.9,
+                "index" => 1.8,
             ],
             [
                 "name"  => "Thịnh PVĐ",
@@ -98,7 +99,7 @@ class UserTableSeed extends Seeder
             ],
             [
                 "name"  => "Nguyên MV",
-                "index" => 1.8,
+                "index" => 1.7,
             ],
             [
                 "name"  => "Cường PM",
@@ -106,11 +107,11 @@ class UserTableSeed extends Seeder
             ],
             [
                 "name"  => "Sang LT",
-                "index" => 1.8,
+                "index" => 1.7,
             ],
             [
                 "name"  => "Lễ NH",
-                "index" => 1.6,
+                "index" => 1.5,
             ],
             [
                 "name"  => "Phong TH",
@@ -135,6 +136,7 @@ class UserTableSeed extends Seeder
             }
             $adduser        = new User;
             $adduser->name  = $user['name'];
+            $adduser->slug  = Str::slug($user['name'], "-");
             $adduser->index = $user['index'];
             $adduser->save();
         }
