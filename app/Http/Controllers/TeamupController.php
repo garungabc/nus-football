@@ -76,6 +76,9 @@ class TeamupController extends Controller
 
         if (!empty($team_level)) {
             $this->afterProcess($team_level, $team);
+
+            // second time
+            $this->afterProcess($team_level, $team);
         }
 
         // handle case: Hien-NV
@@ -161,11 +164,12 @@ class TeamupController extends Controller
                     $tmp_user_team[$key] = $user;
                 }
             }
-
-            $sub_item     = array_rand($tmp_user_team);
-
-            array_push($team[$min_team['level']], $team[$max_team['level']][$sub_item]);
-            unset($team[$max_team['level']][$sub_item]);
+            for ($i=0; $i <= $max_team['count'] - $min_team['count'] - 2; $i++) { 
+                $sub_item     = array_rand($tmp_user_team);
+                array_push($team[$min_team['level']], $team[$max_team['level']][$sub_item]);
+                unset($team[$max_team['level']][$sub_item]);
+                unset($tmp_user_team[$sub_item]);
+            }
         }
     }
 
@@ -206,5 +210,10 @@ class TeamupController extends Controller
         }
         asort($point_team);
         return $point_team;
+    }
+
+    public function captureMonitor() {
+        $url = 'https://github.com';
+        $screenCapture = new Capture($url);
     }
 }

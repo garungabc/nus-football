@@ -60,7 +60,7 @@
 									<th class="text-center" style="background-color: {{ $bg_color }};">Team {{ $i }}</th>
 								</tr>
 							</thead>
-							@for($j = 0; $j < floor($sum / 4) + ($sum % 4); $j++)
+							@for($j = 0; $j < $max_row; $j++)
 							<tr>
 								<td class="text-center"  style="height: 41px;"></td>
 							</tr>
