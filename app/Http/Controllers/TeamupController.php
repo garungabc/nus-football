@@ -23,6 +23,11 @@ class TeamupController extends Controller
         return view('prepareteam', ['users' => $users]);
     }
 
+    /**
+     * [arrangeTeamWeeks main]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function arrangeTeamWeeks(Request $request)
     {
         $users_query = new User();
@@ -95,6 +100,12 @@ class TeamupController extends Controller
         }
     }
 
+    /**
+     * [afterProcess handle team_level array left]
+     * @param  [type] &$team_level [description]
+     * @param  [type] &$team       [description]
+     * @return [type]              [description]
+     */
     public function afterProcess(&$team_level, &$team)
     {
         $point_team = $this->countSumPointEachTeam($team);
@@ -112,24 +123,58 @@ class TeamupController extends Controller
             }
         }
 
-        // check last time
-        // $min_team = [
-        //     'count' => count($team[1]),
-        //     'level' => 1
-        // ];
+        //====== check last time =====
+        $min_team = [
+            'count' => count($team[1]),
+            'level' => 1
+        ];
 
-        // foreach ($team as $key_team => $item) {
-        //     if($min_team['count'] - count($item) >= 2) {
-        //         $sub_item = array_rand($team_level[$key]);
-        //     } else {
-        //         $min_team = [
-        //             'count' => count($item),
-        //             'level' => $key_team
-        //         ];
-        //     }
-        // }
+        foreach ($team as $key_team => $item) {
+            if($min_team['count'] > count($item)) {
+                $min_team = [
+                    'count' => count($item),
+                    'level' => $key_team
+                ];
+            }
+        }
+
+        // max
+        $max_team = [
+            'count' => count($team[1]),
+            'level' => 1
+        ];
+
+        foreach ($team as $key_team => $item) {
+            if($max_team['count'] < count($item)) {
+                $max_team = [
+                    'count' => count($item),
+                    'level' => $key_team
+                ];
+            }
+        }
+
+        // if max > min 2 user, move 1 user from max to min 
+        if($max_team['count'] - $min_team['count'] >= 2) {
+            $tmp_user_team = [];
+            foreach ($team[$max_team['level']] as $key => $user) {
+                if($user['index'] >= 1.6 && $user['index'] <= 1.9) {
+                    $tmp_user_team[$key] = $user;
+                }
+            }
+
+            $sub_item     = array_rand($tmp_user_team);
+
+            array_push($team[$min_team['level']], $team[$max_team['level']][$sub_item]);
+            unset($team[$max_team['level']][$sub_item]);
+        }
     }
 
+    /**
+     * [handleExceptionTeam handle case Hien-NV belongs a team have many people]
+     * @param  [type] &$team    [description]
+     * @param  [type] $uoff_ids [description]
+     * @return [type]           [description]
+     */
     public function handleExceptionTeam(&$team, $uoff_ids)
     {
         $point_team = $this->countSumPointEachTeam($team);
@@ -145,6 +190,11 @@ class TeamupController extends Controller
         return 0;
     }
 
+    /**
+     * [countSumPointEachTeam sort team by sum all index and order index ASC]
+     * @param  [type] $team [description]
+     * @return [type]       [description]
+     */
     public function countSumPointEachTeam($team) {
         $point_team = [];
         foreach ($team as $key => $item_user) {
