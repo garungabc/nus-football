@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Screen\Capture;
 
 class TeamupController extends Controller
 {
@@ -86,7 +87,9 @@ class TeamupController extends Controller
 
         $max_row = floor($count_user / $team_nums) + (($count_user % $team_nums) >= 1 ? 1 : 0);
 
-        return view('showteam', ['team' => $team, 'sum' => $count_user, 'max_row' => $max_row]);
+        $image = '';
+        // $image = $this->captureMonitor($request->fullUrl());
+        return view('showteam', ['team' => $team, 'sum' => $count_user, 'max_row' => $max_row, 'image' => $image]);
     }
 
     public function process(&$team_item, $team_nums, &$team)
@@ -212,8 +215,12 @@ class TeamupController extends Controller
         return $point_team;
     }
 
-    public function captureMonitor() {
-        $url = 'https://github.com';
-        $screenCapture = new Capture($url);
+    public function captureMonitor($url) {
+        $screen_shot_json_data = file_get_contents("https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=$url&screenshot=true");
+        $screen_shot_result = json_decode($screen_shot_json_data, true);
+        $screen_shot = $screen_shot_result['screenshot']['data'];
+        $screen_shot = str_replace(array('_','-'), array('/', '+'), $screen_shot);
+        $screen_shot_image = "<img src=\"data:image/jpeg;base64,".$screen_shot."\" class='img-responsive'/>";
+        return $screen_shot_image;
     }
 }

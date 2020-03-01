@@ -92,6 +92,7 @@
 		</table>
 	</div>
 	<a class="btn btn-sm btn-success"  href="javascript:location.reload(true)">Refresh</a>
+	{!! $image !!}
 </div>
 
 @endsection
