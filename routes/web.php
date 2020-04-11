@@ -17,3 +17,5 @@ $router->get('/', function () use ($router) {
 
 Route::get('prepare-team', ['as' => 'prepare.team', 'uses' => 'TeamupController@prepareTeam']);
 Route::post('set-team', ['as' => 'handle.set.team', 'uses' => 'TeamupController@arrangeTeamWeeks']);
+Route::post('save-setup-team', ['as' => 'save.setup.team', 'uses' => 'TeamupController@saveTeam']);
+Route::get('history', ['as' => 'history.index', 'uses' => 'HistoryController@index']);
