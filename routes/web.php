@@ -19,3 +19,6 @@ Route::get('prepare-team', ['as' => 'prepare.team', 'uses' => 'TeamupController@
 Route::post('set-team', ['as' => 'handle.set.team', 'uses' => 'TeamupController@arrangeTeamWeeks']);
 Route::post('save-setup-team', ['as' => 'save.setup.team', 'uses' => 'TeamupController@saveTeam']);
 Route::get('history', ['as' => 'history.index', 'uses' => 'HistoryController@index']);
+
+Route::get('create-user', ['as' => 'user.create', 'uses' => 'UserController@create']);
+Route::post('store-user', ['as' => 'user.store', 'uses' => 'UserController@store']);

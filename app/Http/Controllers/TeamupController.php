@@ -22,8 +22,16 @@ class TeamupController extends Controller
 
     public function prepareTeam()
     {
-        $users = User::select('id', 'name', 'index')->orderBy('index', 'desc')->get();
-        return view('prepareteam', ['users' => $users]);
+        $sum = User::count();
+        $limit = 6;
+        $loop = $sum / $limit;
+        $columns = [];
+
+        for ($i=0; $i <= $loop; $i++) {
+            $users = User::select('id', 'name', 'index')->limit($limit)->offset($limit *$i)->orderBy('index', 'desc')->get();
+            $columns[] = $users;
+        }
+        return view('prepareteam', ['columns' => $columns]);
     }
 
     /**
@@ -88,6 +96,11 @@ class TeamupController extends Controller
 
         // handle case: Hien-NV
         $count_user += $this->handleExceptionTeam($team, $uoff_ids);
+        $sum_user = User::count();
+
+        if ($count_user > $sum_user) {
+            $count_user = $sum_user;
+        }
 
         $max_row = floor($count_user / $team_nums) + (($count_user % $team_nums) >= 1 ? 1 : 0);
 
@@ -276,6 +289,6 @@ class TeamupController extends Controller
                 $history->save();
             }
         }
-        return redirect()->route('prepare.team');
+        return redirect()->route('history.index');
     }
 }

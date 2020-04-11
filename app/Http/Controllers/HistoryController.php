@@ -24,7 +24,7 @@ class HistoryController extends Controller
     {
         $histories = [];
         $histories_raw = History::orderBy('id', 'desc')->limit(4)->get();
-        // dd($histories_raw);
+
         if (!empty($histories_raw)) {
             foreach ($histories_raw as $key => $item) {
                 $histories[$key] = [
@@ -44,7 +44,6 @@ class HistoryController extends Controller
             }
         }
 
-        // dd($histories);
         return view('history.index', ['histories' => $histories]);
     }
 }

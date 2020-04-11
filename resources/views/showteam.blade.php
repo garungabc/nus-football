@@ -96,6 +96,7 @@
         <input type="hidden" name="sum" value="{{ $sum }}">
         <a class="btn btn-sm btn-success"  href="javascript:location.reload(true)">Refresh</a>
         <button class="btn btn-sm btn-primary" type="submit">Save</button>
+        <a class="btn btn-sm btn-danger float-right" href="{{ route('history.index') }}" target="_blank">History</a>
     </form>
 	{!! $image !!}
 </div>

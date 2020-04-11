@@ -3,7 +3,7 @@
 @section('content')
 <div class="main-content container mt-3 pl-0 mb-4">
 	<a class="btn btn-sm btn-danger"  href="{{ route('prepare.team') }}">Back</a>
-	<h5 class="text-center">History Setup Team</h5>
+	<h5 class="text-center">History - Setup Team</h5>
     @if(!empty($histories))
         @foreach ($histories as $key_team => $item)
             <div class="row">
