@@ -22,3 +22,5 @@ Route::get('history', ['as' => 'history.index', 'uses' => 'HistoryController@ind
 
 Route::get('create-user', ['as' => 'user.create', 'uses' => 'UserController@create']);
 Route::post('store-user', ['as' => 'user.store', 'uses' => 'UserController@store']);
+Route::get('delete-user', ['as' => 'user.delete', 'uses' => 'UserController@delete']);
+Route::post('destroy-user', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);

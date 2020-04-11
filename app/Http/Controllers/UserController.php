@@ -40,4 +40,30 @@ class UserController extends Controller
         // dd($histories);
         return redirect()->route('user.create');
     }
+
+    public function delete(Request $request)
+    {
+        $sum = User::count();
+        $limit = 6;
+        $loop = $sum / $limit;
+        $columns = [];
+
+        for ($i=0; $i <= $loop; $i++) {
+            $users = User::select('id', 'name', 'index')->limit($limit)->offset($limit *$i)->orderBy('index', 'desc')->get();
+            $columns[] = $users;
+        }
+
+        return view('user.delete', ['columns' => $columns]);
+    }
+
+    public function destroy(Request $request)
+    {
+        $users_query = new User();
+        if ($request->has('u-off')) {
+            $uoff_ids    = $request->get('u-off');
+            $users_query = $users_query->whereIn('id', $uoff_ids)->delete();
+        }
+
+        return redirect()->route('user.delete');
+    }
 }
