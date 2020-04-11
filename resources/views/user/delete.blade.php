@@ -5,11 +5,13 @@
 	<h5 class="text-center">Delete user</h5>
 	<div class="row">
         <div class="col col-12">
+            <a class="btn btn-sm btn-danger"  href="{{ route('prepare.team') }}">Back</a>
             <a class="btn btn-primary float-right" href="{{ route('user.create') }}">+ Create new</a>
         </div>
-	</div>
+    </div>
+    <br>
 	<div class="row">
-		<div class="pr-0">
+		<div class="col col-12 pr-0">
 			<form action="{{ route('user.destroy') }}" method="POST">
 				<table class="table table-bordered">
                     @if(!empty($columns))
@@ -25,7 +27,7 @@
                         @endforeach
                     @endif
 				</table>
-				<button type="submit" class="btn btn-sm btn-success">Submit</button>
+				<button type="submit" class="btn btn-danger">Delete</button>
 			</form>
 		</div>
 	</div>
