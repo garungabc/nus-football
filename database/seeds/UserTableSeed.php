@@ -117,19 +117,18 @@ class UserTableSeed extends Seeder
                 "name"  => "Phong TH",
                 "index" => 1.5,
             ],
-            [
-                "name"  => "Sang NV",
-                "index" => 1.5,
-            ],
-            [
-                "name"  => "Tâm LH",
-                "index" => 1.6,
-            ],
+            // [
+            //     "name"  => "Sang NV",
+            //     "index" => 1.5,
+            // ],
+            // [
+            //     "name"  => "Tâm LH",
+            //     "index" => 1.6,
+            // ],
         ];
 
 
         foreach ($users as $key => $user) {
-
             $exist_user = User::where('name', $user['name'])->first();
             if (isset($exist_user->id)) {
                 $exist_user->delete();

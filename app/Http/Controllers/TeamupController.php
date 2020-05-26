@@ -55,7 +55,7 @@ class TeamupController extends Controller
         $team_level = [];
         $team_nums  = 4;
 
-        if ($count_user / 4 < 5) {
+        if ($count_user / 4 < 5 || in_array($count_user, [20])) {
             $team_nums = 3;
         }
 

@@ -46,7 +46,9 @@
                                     @if(count($team[$i]) < $max_row)
                                         @for($row = 1; $row <= $max_row - count($team[$i]); $row++)
                                         <tr>
-                                            <td class="text-center" style="height: 41px;"></td>
+                                            <td class="text-center p-2">
+                                                <input type="text" class="border-0" name="team_{{ $i }}[]" value="">
+                                            </td>
                                         </tr>
                                         @endfor
                                     @endif
@@ -58,12 +60,14 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th class="text-center" style="background-color: {{ $bg_color }};">Team {{ $i }}</th>
+                                        <th class="text-center p-2" style="background-color: {{ $bg_color }};">Team {{ $i }}</th>
                                     </tr>
                                 </thead>
                                 @for($j = 0; $j < $max_row; $j++)
                                 <tr>
-                                    <td class="text-center"  style="height: 41px;"></td>
+                                    <td class="text-center p-2">
+                                        <input type="text" class="border-0" name="team_{{ $i }}[]" value="">
+                                    </td>
                                 </tr>
                                 @endfor
                             </table>
