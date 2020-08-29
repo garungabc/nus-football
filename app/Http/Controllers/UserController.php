@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::get();
+        $users = User::withTrashed()->get();
         return view('components.users.index', ['users' => $users]);
     }
 
@@ -31,45 +31,66 @@ class UserController extends Controller
         return view('components.users.create');
     }
 
+    public function show(Request $request, $id)
+    {
+        $user = User::find($id);
+        return view('components.users.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!isset($user->id)) {
+            $user = new User;
+        }
+
+        $user_slug = Str::slug($request->get('name'));
+
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->phone = $request->get('phone');
+        $user->slug = $user_slug;
+        $user->index = (float) $request->get('index');
+        $user->status = (int) $request->get('status');
+        $user->save();
+
+        return view('components.users.edit', compact('user'));
+    }
+
     public function store(Request $request)
     {
         $user_slug = Str::slug($request->get('name'));
-        $find_user = User::where('slug', $user_slug)->first();
+        $user = User::where('slug', $user_slug)->first();
 
-        if (!isset($find_user->id)) {
+        if (!isset($user->id)) {
             $user = new User;
-            $user->name = $request->get('name');
-            $user->slug = $user_slug;
-            $user->index = $request->get('index');
-            $user->save();
         }
 
-        return redirect()->route('user.create');
-    }
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->phone = $request->get('phone');
+        $user->slug = $user_slug;
+        $user->index = (float) $request->get('index');
+        $user->status = (int) $request->get('status');
+        $user->save();
 
-    public function delete(Request $request)
-    {
-        $sum = User::count();
-        $limit = 6;
-        $loop = $sum / $limit;
-        $columns = [];
-
-        for ($i=0; $i <= $loop; $i++) {
-            $users = User::select('id', 'name', 'index')->limit($limit)->offset($limit *$i)->orderBy('index', 'desc')->get();
-            $columns[] = $users;
-        }
-
-        return view('user.delete', ['columns' => $columns]);
+        return redirect()->route('user.index');
     }
 
     public function destroy(Request $request)
     {
         $users_query = new User();
-        if ($request->has('u-off')) {
-            $uoff_ids    = $request->get('u-off');
-            $users_query = $users_query->whereIn('id', $uoff_ids)->delete();
+        if ($request->has('delete_user_ids')) {
+            $uoff_ids    = $request->get('delete_user_ids');
+            $users_query = $users_query->whereIn('id', $uoff_ids);
+            if ($request->has('force-delete')) {
+                $users_query->forceDelete();
+            } else {
+                $users_query->delete();
+            }
         }
 
-        return redirect()->route('user.delete');
+        return redirect()->route('user.index');
     }
 }

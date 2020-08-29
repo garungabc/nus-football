@@ -11064,9 +11064,11 @@ button,
 }
 
 .app-header__logo .logo-src {
-    height: 23px;
+    height: 35px;
     width: 97px;
-    background: url(/images/logo-inverse.png)
+    background: url(/images/logo-inverse.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .app-header__menu,

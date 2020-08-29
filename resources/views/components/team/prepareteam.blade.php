@@ -19,7 +19,7 @@
                             <tbody>
                                 @foreach($users as $key => $user)
                                 <tr>
-                                    <th scope="row">{{ $key }}</th>
+                                    <th scope="row">{{ $key + 1 }}</th>
                                     <td class="">
                                         <label class="form-check-label w-100">
                                             <input type="checkbox" class="form-check-input" name="u-off[]

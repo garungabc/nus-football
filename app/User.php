@@ -38,4 +38,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static $status = [
+        'active' => 1,
+        'inactive' => 0,
+    ];
+
+    public function getStatusText()
+    {
+        if ($this->status == self::$status['active'] && empty($this->deleted_at)) {
+            return '<p class="text-success">Active</p>';
+        } else {
+            if (!empty($this->deleted_at)) {
+                return '<p class="text-muted">Soft Deleted</p>';
+            }
+            return '<p class="text-danger">Inactive</p>';
+        }
+    }
 }

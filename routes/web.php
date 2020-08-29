@@ -26,8 +26,9 @@ Route::get('history', ['as' => 'history.index', 'uses' => 'HistoryController@ind
 
 Route::prefix('users')->group(function () {
     Route::get('/', ['as' => 'user.index', 'uses' => 'UserController@index']);
+    Route::get('edit/{id}', ['as' => 'user.edit', 'uses' => 'UserController@show']);
+    Route::post('edit/{id}', ['as' => 'user.update', 'uses' => 'UserController@update']);
     Route::get('create', ['as' => 'user.create', 'uses' => 'UserController@create']);
     Route::post('store', ['as' => 'user.store', 'uses' => 'UserController@store']);
-    Route::get('delete', ['as' => 'user.delete', 'uses' => 'UserController@delete']);
     Route::post('destroy', ['as' => 'user.destroy', 'uses' => 'UserController@destroy']);
 });

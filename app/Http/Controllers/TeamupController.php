@@ -22,7 +22,7 @@ class TeamupController extends Controller
 
     public function prepareTeam()
     {
-        $users = User::select('id', 'name', 'index')->orderBy('index', 'desc')->get();
+        $users = User::orderBy('index', 'desc')->where('status', User::$status['active'])->get();
 
         return view('components.team.prepareteam', ['users' => $users]);
     }

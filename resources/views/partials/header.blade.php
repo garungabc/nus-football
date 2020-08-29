@@ -102,7 +102,7 @@
                                 Songoku
                             </div>
                             <div class="widget-subheading">
-                                Club Football Manager
+                                Football Club Manager
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">
