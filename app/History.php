@@ -12,6 +12,6 @@ class History extends Model
      * @var array
      */
     protected $fillable = [
-        'team_1', 'team_2', 'team_3', 'team_4'
+        'team_1', 'team_2', 'team_3', 'team_4', 'come_late', 'leave_early'
     ];
 }

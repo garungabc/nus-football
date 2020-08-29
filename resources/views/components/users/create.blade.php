@@ -3,63 +3,37 @@
 @section('content')
 <div class="main-card mb-3 card">
     <div class="card-body">
-        <h5 class="card-title">Bootstrap 4 Form Validation</h5>
-        <form class="needs-validation" novalidate>
+        <h5 class="card-title">User - Create new</h5>
+        <form class="needs-validation" novalidate action="{{ route('user.store') }}">
+            @method('post')
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                    <label for="validationCustom01">Name<sup>*</sup></label>
-                    <input type="text" class="form-control" id="validationCustom01" placeholder="Dau DQ" required>
+                    <label for="name-inp">Name<sup class="text-danger">*</sup></label>
+                    <input type="text" class="form-control" id="name-inp" name="name" placeholder="Dau DQ" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="validationCustom02">Phone</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="0123456789" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
+                    <label for="phone-inp">Phone</label>
+                    <input type="text" class="form-control" id="phone-inp" name="phone" placeholder="0123456789">
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="validationCustomUsername">Email</label>
-                    <input type="email" class="form-control" id="validationCustomUsername" placeholder="abc@domain.com" required>
-                    <div class="invalid-feedback">
-                        Please choose a username.
-                    </div>
+                    <label for="email-inp">Email</label>
+                    <input type="email" class="form-control" id="email-inp" name="email" placeholder="abc@domain.com">
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-6 mb-3">
+                <div class="col-md-2 mb-3">
                     <label for="validationCustom03">Index</label>
-                    <input type="text" class="form-control" id="validationCustom03" placeholder="default 1.5" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid city.
-                    </div>
+                    <input type="text" class="form-control" id="validationCustom03" placeholder="default 1.5" value="1.5" required>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">State</label>
-                    <input type="text" class="form-control" id="validationCustom04" placeholder="State" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom05">Zip</label>
-                    <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid zip.
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                    <label class="form-check-label" for="invalidCheck">
-                        Agree to terms and conditions
-                    </label>
-                    <div class="invalid-feedback">
-                        You must agree before submitting.
-                    </div>
+                <div class="col-md-2 mb-3">
+                    <label for="select-status-inp">Status</label>
+                    <select class="form-control form-control" id="select-status-inp">
+                        <option value="1" selected>Active</option>
+                        <option value="0">In Active</option>
+                    </select>
                 </div>
             </div>
             <button class="btn btn-primary" type="submit">Submit form</button>

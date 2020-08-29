@@ -43,7 +43,7 @@ class UserController extends Controller
             $user->index = $request->get('index');
             $user->save();
         }
-        // dd($histories);
+
         return redirect()->route('user.create');
     }
 

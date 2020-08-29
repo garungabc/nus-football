@@ -22,16 +22,9 @@ class TeamupController extends Controller
 
     public function prepareTeam()
     {
-        $sum = User::count();
-        $limit = 6;
-        $loop = $sum / $limit;
-        $columns = [];
+        $users = User::select('id', 'name', 'index')->orderBy('index', 'desc')->get();
 
-        for ($i=0; $i <= $loop; $i++) {
-            $users = User::select('id', 'name', 'index')->limit($limit)->offset($limit *$i)->orderBy('index', 'desc')->get();
-            $columns[] = $users;
-        }
-        return view('prepareteam', ['columns' => $columns]);
+        return view('components.team.prepareteam', ['users' => $users]);
     }
 
     /**
@@ -107,7 +100,7 @@ class TeamupController extends Controller
 
         $image = '';
         // $image = $this->captureMonitor($request->fullUrl());
-        return view('showteam', ['team' => $team, 'sum' => $count_user, 'max_row' => $max_row, 'image' => $image]);
+        return view('components.team.showteam', ['team' => $team, 'sum' => $count_user, 'max_row' => $max_row, 'image' => $image]);
     }
 
     public function process(&$team_item, $team_nums, &$team)
@@ -246,19 +239,17 @@ class TeamupController extends Controller
 
     public function saveTeam(Request $request)
     {
-        $inputs = $request->except('csrf_token', 'max_row', 'sum');
+        $inputs = $request->except('_token', 'max_row', 'sum', 'come_late', 'leave_early');
         $max_row = $request->get('max_row');
         $sum = $request->get('sum');
+        $leave_early = !empty($request->get('leave_early')) ? json_encode($request->get('leave_early')) : '';
+        $come_late = !empty($request->get('come_late')) ? json_encode($request->get('come_late')) : '';
 
         if (!empty($inputs)) {
             $data_team = [];
             foreach ($inputs as $key_team => $item) {
                 foreach ($item as $sub_key => $value) {
-                    $user_slug = Str::slug($value);
-                    $find_user = User::where('slug', $user_slug)->first();
-                    if (isset($find_user->id)) {
-                        $data_team[$key_team][] = $find_user->id;
-                    }
+                    $data_team[$key_team][] = $value;
                 }
             }
 
@@ -285,6 +276,8 @@ class TeamupController extends Controller
                             break;
                     }
                 }
+                $history->leave_early = $leave_early;
+                $history->come_late = $come_late;
                 $history->max_row = $max_row;
                 $history->sum = $sum;
                 $history->save();

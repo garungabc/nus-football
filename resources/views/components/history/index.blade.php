@@ -2,8 +2,7 @@
 
 @section('content')
 <div class="main-content container mt-3 pl-0 mb-4">
-	<a class="btn btn-sm btn-danger"  href="{{ route('prepare.team') }}">Back</a>
-	<h5 class="text-center">History - Setup Team</h5>
+	<h5 class="text-center">History - Setup Team Weekly</h5>
     @if(!empty($histories))
         @foreach ($histories as $key_team => $item)
             <div class="row">
@@ -75,6 +74,24 @@
                         @endif
                     @endfor
                 @endif
+            </div>
+            <div class="row ml-0">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="1" style="background-color: #c0392b" class="text-center text-white">Đến muộn</th>
+                            <th colspan="1" style="background-color: #e67e22" class="text-center text-white">Về sớm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for($i = 0; $i < 4; $i++)
+                        <tr>
+                            <td class="p-0"><input type="text" value="{{ isset($item['come_late'][$i]) && !empty($item['come_late'][$i]) ? $item['come_late'][$i] : '' }}" class="text-center border-0 w-100"></td>
+                            <td class="p-0"><input type="text" value="{{ isset($item['leave_early'][$i]) && !empty($item['leave_early'][$i]) ? $item['leave_early'][$i] : '' }}" class="text-center border-0 w-100"></td>
+                        </tr>
+                        @endfor
+                    </tbody>
+                </table>
             </div>
             <br><br><hr style="">
         @endforeach

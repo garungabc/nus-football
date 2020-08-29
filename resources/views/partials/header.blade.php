@@ -72,7 +72,7 @@
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                     class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="{{ asset('images/avatars/1.jpg') }}"
+                                    <img width="42" class="rounded-circle" src="{{ asset('images/avatars/1.png') }}"
                                         alt="" />
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
@@ -99,10 +99,10 @@
                         </div>
                         <div class="widget-content-left ml-3 header-user-info">
                             <div class="widget-heading">
-                                Alina Mclourd
+                                Songoku
                             </div>
                             <div class="widget-subheading">
-                                VP People Manager
+                                Club Football Manager
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">
@@ -118,7 +118,7 @@
     </div>
 </div>
 <div class="ui-theme-settings">
-    <button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning">
+    <button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning d-none">
         <i class="fa fa-cog fa-w-16 fa-spin fa-2x"></i>
     </button>
     <div class="theme-settings__inner">

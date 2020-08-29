@@ -33,10 +33,10 @@ class UserTableSeed extends Seeder
                 "name"  => "Hùng PN",
                 "index" => 2.1,
             ],
-            // [
-            //     "name"  => "Vinh P",
-            //     "index" => 2,
-            // ],
+            [
+                "name"  => "Vinh P",
+                "index" => 2,
+            ],
             [
                 "name"  => "Chiến TX",
                 "index" => 2.2,
@@ -46,28 +46,12 @@ class UserTableSeed extends Seeder
                 "index" => 1.9,
             ],
             [
-                "name"  => "Phú TV",
-                "index" => 1.8,
-            ],
-            [
-                "name"  => "Thịnh CT",
-                "index" => 1.7,
-            ],
-            [
-                "name"  => "Thiệu NV",
-                "index" => 2,
-            ],
-            [
                 "name"  => "Toàn DT",
                 "index" => 2,
             ],
             [
                 "name"  => "Dậu ĐQ",
                 "index" => 2,
-            ],
-            [
-                "name"  => "Khánh NN",
-                "index" => 1.6,
             ],
             [
                 "name"  => "Thiện TM",
@@ -102,10 +86,6 @@ class UserTableSeed extends Seeder
                 "index" => 1.7,
             ],
             [
-                "name"  => "Cường PM",
-                "index" => 2.1,
-            ],
-            [
                 "name"  => "Sang LT",
                 "index" => 1.7,
             ],
@@ -114,24 +94,32 @@ class UserTableSeed extends Seeder
                 "index" => 1.5,
             ],
             [
-                "name"  => "Phong TH",
+                "name"  => "Thiên VN",
+                "index" => 2,
+            ],
+            [
+                "name"  => "Sang NV",
                 "index" => 1.5,
             ],
-            // [
-            //     "name"  => "Sang NV",
-            //     "index" => 1.5,
-            // ],
-            // [
-            //     "name"  => "Tâm LH",
-            //     "index" => 1.6,
-            // ],
+            [
+                "name"  => "Tâm LH",
+                "index" => 1.6,
+            ],
+            [
+                "name"  => "Vũ TQ",
+                "index" => 1.6,
+            ],
+            [
+                "name"  => "Tiến ND",
+                "index" => 1.6,
+            ],
         ];
 
 
         foreach ($users as $key => $user) {
             $exist_user = User::where('name', $user['name'])->first();
             if (isset($exist_user->id)) {
-                $exist_user->delete();
+                $exist_user->forceDelete();
             }
             $adduser        = new User;
             $adduser->name  = $user['name'];

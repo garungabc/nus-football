@@ -15,6 +15,7 @@
     <meta name="description" content="This is an example dashboard created using build-in elements and components." />
     <meta name="msapplication-tap-highlight" content="no" />
     <link href="{{ asset('main.css') }}" rel="stylesheet" />
+    @yield('styles')
 </head>
 
 <body>
@@ -70,6 +71,7 @@
         </div>
     </div>
     <script type="text/javascript" src="{{ asset('main.js') }}"></script>
+    @yield('scripts')
 </body>
 
 </html>
