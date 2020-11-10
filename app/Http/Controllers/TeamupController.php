@@ -41,7 +41,8 @@ class TeamupController extends Controller
         } else {
             $uoff_ids = [];
         }
-        $users      = $users_query->where('slug', '!=', 'hien-nv')->orderBy('index', 'desc')->get();
+        $users_query      = $users_query->where('status', 1)->where('slug', '!=', 'hien-nv');
+        $users = $users_query->orderBy('index', 'desc')->get();
         $count_user = $users_query->count();
 
         $team       = [];
