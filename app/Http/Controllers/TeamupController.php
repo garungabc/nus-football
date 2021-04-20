@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\History;
 use App\User;
 use Carbon\Carbon;
-use Screen\Capture;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class TeamupController extends Controller
@@ -28,27 +26,28 @@ class TeamupController extends Controller
     }
 
     /**
-     * [arrangeTeamWeeks main]
-     * @param  Request $request [description]
-     * @return [type]           [description]
+     * [arrangeTeamWeeks main].
+     *
+     * @param Request $request [description]
+     *
+     * @return [type] [description]
      */
     public function arrangeTeamWeeks(Request $request)
     {
         $users_query = new User();
         if ($request->has('u-off')) {
-            $uoff_ids    = $request->get('u-off');
+            $uoff_ids = $request->get('u-off');
             $users_query = $users_query->whereNotIn('id', $uoff_ids);
         } else {
             $uoff_ids = [];
         }
-        $users_query      = $users_query->where('status', 1)->where('slug', '!=', 'hien-nv');
+        $users_query = $users_query->where('status', 1)->where('slug', '!=', 'hien-nv');
         $users = $users_query->orderBy('index', 'desc')->get();
         $count_user = $users_query->count();
 
-        $team       = [];
+        $team = [];
         $team_level = [];
-        $team_nums  = 4;
-
+        $team_nums = 4;
 
         if ($count_user < 19) {
             $team_nums = 3;
@@ -58,21 +57,21 @@ class TeamupController extends Controller
             $user = $user->toArray();
 
             switch (true) {
-                case ($user['index'] >= 2):
+                case $user['index'] >= 2:
                     $team_level[1][] = $user;
                     break;
-                case ($user['index'] >= 1.8 && $user['index'] < 2):
+                case $user['index'] >= 1.8 && $user['index'] < 2:
                     $team_level[2][] = $user;
                     break;
-                case ($user['index'] >= 1.6 && $user['index'] < 1.8):
+                case $user['index'] >= 1.6 && $user['index'] < 1.8:
                     $team_level[3][] = $user;
                     break;
-                case ($user['index'] < 1.6):
+                case $user['index'] < 1.6:
                     $team_level[4][] = $user;
                     break;
 
                 default:
-                    # code...
+                    // code...
                     break;
             }
         }
@@ -108,9 +107,9 @@ class TeamupController extends Controller
     {
         if ($team_item >= $team_nums) {
             $loop_max = floor(count($team_item) / $team_nums);
-            for ($loop_number = 0; $loop_number < $loop_max; $loop_number++) {
-                for ($num = 1; $num <= $team_nums; $num++) {
-                    $sub_item     = array_rand($team_item);
+            for ($loop_number = 0; $loop_number < $loop_max; ++$loop_number) {
+                for ($num = 1; $num <= $team_nums; ++$num) {
+                    $sub_item = array_rand($team_item);
                     $team[$num][] = $team_item[$sub_item];
                     unset($team_item[$sub_item]);
                 }
@@ -119,10 +118,12 @@ class TeamupController extends Controller
     }
 
     /**
-     * [afterProcess handle team_level array left]
-     * @param  [type] &$team_level [description]
-     * @param  [type] &$team       [description]
-     * @return [type]              [description]
+     * [afterProcess handle team_level array left].
+     *
+     * @param [type] &$team_level [description]
+     * @param [type] &$team       [description]
+     *
+     * @return [type] [description]
      */
     public function afterProcess(&$team_level, &$team)
     {
@@ -133,7 +134,7 @@ class TeamupController extends Controller
             if (!empty($team_item)) {
                 foreach ($point_team as $key_team => $point) {
                     if (!empty($team_level[$key])) {
-                        $sub_item     = array_rand($team_level[$key]);
+                        $sub_item = array_rand($team_level[$key]);
                         array_push($team[$key_team], $team_item[$sub_item]);
                         unset($team_level[$key][$sub_item]);
                     }
@@ -144,14 +145,14 @@ class TeamupController extends Controller
         //====== check last time =====
         $min_team = [
             'count' => count($team[1]),
-            'level' => 1
+            'level' => 1,
         ];
 
         foreach ($team as $key_team => $item) {
             if ($min_team['count'] > count($item)) {
                 $min_team = [
                     'count' => count($item),
-                    'level' => $key_team
+                    'level' => $key_team,
                 ];
             }
         }
@@ -159,14 +160,14 @@ class TeamupController extends Controller
         // max
         $max_team = [
             'count' => count($team[1]),
-            'level' => 1
+            'level' => 1,
         ];
 
         foreach ($team as $key_team => $item) {
             if ($max_team['count'] < count($item)) {
                 $max_team = [
                     'count' => count($item),
-                    'level' => $key_team
+                    'level' => $key_team,
                 ];
             }
         }
@@ -179,8 +180,8 @@ class TeamupController extends Controller
                     $tmp_user_team[$key] = $user;
                 }
             }
-            for ($i=0; $i <= $max_team['count'] - $min_team['count'] - 2; $i++) {
-                $sub_item     = array_rand($tmp_user_team);
+            for ($i = 0; $i <= $max_team['count'] - $min_team['count'] - 2; ++$i) {
+                $sub_item = array_rand($tmp_user_team);
                 array_push($team[$min_team['level']], $team[$max_team['level']][$sub_item]);
                 unset($team[$max_team['level']][$sub_item]);
                 unset($tmp_user_team[$sub_item]);
@@ -189,30 +190,36 @@ class TeamupController extends Controller
     }
 
     /**
-     * [handleExceptionTeam handle case Hien-NV belongs a team have many people]
-     * @param  [type] &$team    [description]
-     * @param  [array] $uoff_ids [description]
-     * @return [type]           [description]
+     * [handleExceptionTeam handle case Hien-NV belongs a team have many people].
+     *
+     * @param [type]  &$team    [description]
+     * @param [array] $uoff_ids [description]
+     *
+     * @return [type] [description]
      */
     public function handleExceptionTeam(&$team, $uoff_ids = [])
     {
         $point_team = $this->countSumPointEachTeam($team);
-        $user_except = User::where('slug', 'hien-nv')->first();
+        $user_except = User::where('slug', 'hien-nv')->where('status', 1)->first();
 
-        if (!in_array($user_except->id, $uoff_ids)) {
+        if (isset($user_except->id) && !in_array($user_except->id, $uoff_ids)) {
             foreach ($point_team as $key => $point) {
                 array_push($team[$key], $user_except);
                 break;
             }
+
             return 1;
         }
+
         return 0;
     }
 
     /**
-     * [countSumPointEachTeam sort team by sum all index and order index ASC]
-     * @param  [type] $team [description]
-     * @return [type]       [description]
+     * [countSumPointEachTeam sort team by sum all index and order index ASC].
+     *
+     * @param [type] $team [description]
+     *
+     * @return [type] [description]
      */
     public function countSumPointEachTeam($team)
     {
@@ -225,6 +232,7 @@ class TeamupController extends Controller
             $point_team[$key] = $count_point;
         }
         asort($point_team);
+
         return $point_team;
     }
 
@@ -233,8 +241,9 @@ class TeamupController extends Controller
         $screen_shot_json_data = file_get_contents("https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=$url&screenshot=true");
         $screen_shot_result = json_decode($screen_shot_json_data, true);
         $screen_shot = $screen_shot_result['screenshot']['data'];
-        $screen_shot = str_replace(array('_','-'), array('/', '+'), $screen_shot);
-        $screen_shot_image = "<img src=\"data:image/jpeg;base64,".$screen_shot."\" class='img-responsive'/>";
+        $screen_shot = str_replace(['_', '-'], ['/', '+'], $screen_shot);
+        $screen_shot_image = '<img src="data:image/jpeg;base64,'.$screen_shot."\" class='img-responsive'/>";
+
         return $screen_shot_image;
     }
 
@@ -273,7 +282,7 @@ class TeamupController extends Controller
                             $history->team_4 = json_encode($team);
                             break;
                         default:
-                            # code...
+                            // code...
                             break;
                     }
                 }
@@ -284,6 +293,7 @@ class TeamupController extends Controller
                 $history->save();
             }
         }
+
         return redirect()->route('history.index');
     }
 }
